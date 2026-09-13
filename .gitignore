@@ -5,3 +5,8 @@ __pycache__/
 .env
 *.egg-info/
 logs/
+
+#Enviroments 
+.artifacts/
+.env
+.venv/
