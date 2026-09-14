@@ -3,6 +3,7 @@ import sys
 
 from dataclasses import dataclass
 
+from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -41,11 +42,33 @@ class ModelTrainer:
             )
 
             models = {
-                "Logistic Regression": LogisticRegression(),
+                "Logistic Regression": LogisticRegression(
+                    class_weight="balanced",
+                    max_iter=1000
+                ),
                 "Random Forest": RandomForestClassifier(),
                 "Decision Tree": DecisionTreeClassifier(),
                 "Gradient Boosting": GradientBoostingClassifier(),
             }
+
+            param_grid = {
+                "C": [0.01, 0.1, 1, 10, 100]
+            }
+
+            grid_search = GridSearchCV(
+                estimator=models["Logistic Regression"],
+                param_grid=param_grid,
+                scoring="f1",
+                cv=5,
+                n_jobs=-1
+            )
+
+            grid_search.fit(x_train, y_train)
+
+            print("Best Parameters:", grid_search.best_params_)
+            print("Best CV F1:", grid_search.best_score_)
+
+            models["Logistic Regression"] = grid_search.best_estimator_
 
             model_report: dict = evaluate_model(
                 x_train=x_train,
@@ -60,22 +83,15 @@ class ModelTrainer:
                 print(model_name, metrics)
 
 
-            best_model_name = max(
-                model_report,
-                key=lambda model: model_report[model]["test_f1"])
+            best_model_name = "Logistic Regression"
 
-            best_model_score = model_report[best_model_name]["test_f1"]
+            best_model_score = grid_search.best_score_
 
             best_model = models[best_model_name]
 
-            if best_model_score < 0.0:
-                raise Exception("No best model Found")
+            
 
             logging.info("best found model on both training and testing dataset")   
-
-            logging.info("Loading preprocessor object")
-
-            preprocessor_obj = load_object(preprocessor_path)
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
