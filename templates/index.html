@@ -1,0 +1,914 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RetainIQ | Employee Retention Intelligence</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 0 60px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            color: #f8fafc;
+        }
+
+        .brand p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .status {
+            padding: 8px 14px;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            background: #111827;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            margin-bottom: 28px;
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+            color: #f8fafc;
+            margin-bottom: 5px;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .fields {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            background: #0b1120;
+            border: 1px solid #263244;
+            border-radius: 10px;
+            color: #e5e7eb;
+            outline: none;
+            font-size: 13px;
+            transition: 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+
+        select option {
+            background: #111827;
+            color: #e5e7eb;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .analyze-wrapper {
+            margin: 25px 0 35px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .analyze-btn {
+            border: none;
+            padding: 14px 32px;
+            border-radius: 11px;
+            background: #2563eb;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .analyze-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* ================= RESULTS ================= */
+
+        .result-section {
+            margin-top: 20px;
+        }
+
+        .result-header {
+            margin-bottom: 18px;
+        }
+
+        .result-header h2 {
+            font-size: 22px;
+            color: #f8fafc;
+        }
+
+        .result-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .result-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .prediction {
+            font-size: 23px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .probability {
+            font-size: 32px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+                /* ================= RISK METER ================= */
+
+        .risk-meter {
+            margin-top: 18px;
+        }
+
+        .risk-meter-bar {
+            width: 100%;
+            height: 10px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .risk-meter-fill {
+            height: 100%;
+            width: {{ probability }}%;
+            background: #ef4444;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .risk-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        .risk {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        /* ================= EXPLANATION ================= */
+
+        .explanation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .explanation-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 18px;
+            padding: 24px;
+        }
+
+        .explanation-card h3 {
+            font-size: 16px;
+            margin-bottom: 18px;
+            color: #f8fafc;
+        }
+
+        .factor-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .factor-list li {
+            padding: 12px 14px;
+            background: #0b1120;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .factor-list strong {
+            color: #f8fafc;
+        }
+
+        .risk-increasing {
+            border-left: 3px solid #ef4444;
+        }
+
+        .risk-reducing {
+            border-left: 3px solid #22c55e;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+            margin-top: 45px;
+            color: #475569;
+            font-size: 11px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 94%;
+                padding-top: 22px;
+            }
+
+            .header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .status {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 26px;
+            }
+
+            .fields {
+                grid-template-columns: 1fr;
+            }
+
+            .explanation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                R
+            </div>
+
+            <div>
+                <h1>RetainIQ</h1>
+                <p>Employee Retention Intelligence</p>
+            </div>
+
+        </div>
+
+        <div class="status">
+            Workforce Analytics
+        </div>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <h2>Employee Risk Analysis</h2>
+
+        <p>
+            Analyze employee attributes to estimate attrition risk
+            and identify factors worth reviewing.
+        </p>
+
+    </section>
+
+
+    <!-- ================= FORM ================= -->
+
+    <form action="/predict" method="post">
+
+        <div class="form-grid">
+
+
+            <!-- EMPLOYEE PROFILE -->
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Employee Profile</h3>
+                    <p>Basic employee information</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Employee Name</label>
+                        <input
+                            type="text"
+                            name="employee_name"
+                            placeholder="Enter employee name"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Age</label>
+                        <input
+                            type="number"
+                            name="age"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Marital Status</label>
+                        <select name="marital_status" required>
+                            <option value="">Select</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- WORK PROFILE -->
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Work Profile</h3>
+                    <p>Role, department and travel information</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Department</label>
+                        <select name="department" required>
+                            <option value="">Select Department</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Research & Development">
+                                Research & Development
+                            </option>
+                            <option value="Human Resources">
+                                Human Resources
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Job Role</label>
+                        <select name="job_role" required>
+                            <option value="">Select Job Role</option>
+                            <option value="Sales Executive">Sales Executive</option>
+                            <option value="Sales Representative">Sales Representative</option>
+                            <option value="Research Scientist">Research Scientist</option>
+                            <option value="Laboratory Technician">Laboratory Technician</option>
+                            <option value="Manufacturing Director">Manufacturing Director</option>
+                            <option value="Healthcare Representative">Healthcare Representative</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Research Director">Research Director</option>
+                            <option value="Human Resources">Human Resources</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Job Level</label>
+                        <input
+                            type="number"
+                            name="job_level"
+                            min="1"
+                            max="5"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Business Travel</label>
+                        <select name="business_travel" required>
+                            <option value="">Select</option>
+                            <option value="Non-Travel">Non-Travel</option>
+                            <option value="Travel_Rarely">Travel Rarely</option>
+                            <option value="Travel_Frequently">
+                                Travel Frequently
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Education Field</label>
+                        <select name="education_field" required>
+                            <option value="">Select</option>
+                            <option value="Life Sciences">Life Sciences</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Technical Degree">Technical Degree</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPENSATION -->
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Compensation</h3>
+                    <p>Employee compensation indicators</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Monthly Income</label>
+                        <input type="number" name="monthly_income" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Monthly Rate</label>
+                        <input type="number" name="monthly_rate" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Daily Rate</label>
+                        <input type="number" name="daily_rate" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Hourly Rate</label>
+                        <input type="number" name="hourly_rate" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Salary Hike (%)</label>
+                        <input type="number" name="percent_salary_hike" required>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SATISFACTION -->
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Satisfaction & Engagement</h3>
+                    <p>Employee experience indicators</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Environment Satisfaction</label>
+                        <input type="number" name="environment_satisfaction" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Job Satisfaction</label>
+                        <input type="number" name="job_satisfaction" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Job Involvement</label>
+                        <input type="number" name="job_involvement" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Relationship Satisfaction</label>
+                        <input type="number" name="relationship_satisfaction" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Work-Life Balance</label>
+                        <input type="number" name="work_life_balance" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Stock Option Level</label>
+                        <input type="number" name="stock_option_level" min="0" max="3" required>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- WORK HISTORY -->
+
+            <div class="card full">
+
+                <div class="card-header">
+                    <h3>Work History</h3>
+                    <p>Career progression and experience indicators</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Total Working Years</label>
+                        <input type="number" name="total_working_years" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Years at Company</label>
+                        <input type="number" name="years_at_company" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Years in Current Role</label>
+                        <input type="number" name="years_in_current_role" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Years Since Last Promotion</label>
+                        <input type="number" name="years_since_last_promotion" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Years With Current Manager</label>
+                        <input type="number" name="years_with_curr_manager" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Companies Previously Worked</label>
+                        <input type="number" name="num_companies_worked" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Training Times Last Year</label>
+                        <input type="number" name="training_times_last_year" required>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OTHER INFORMATION -->
+
+            <div class="card full">
+
+                <div class="card-header">
+                    <h3>Additional Information</h3>
+                    <p>Other employee attributes used by the model</p>
+                </div>
+
+                <div class="fields">
+
+                    <div class="field">
+                        <label>Distance From Home</label>
+                        <input type="number" name="distance_from_home" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Education</label>
+                        <input type="number" name="education" min="1" max="5" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Performance Rating</label>
+                        <input type="number" name="performance_rating" min="1" max="4" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Overtime</label>
+                        <select name="over_time" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= BUTTON ================= -->
+
+        <div class="analyze-wrapper">
+
+            <button type="submit" class="analyze-btn">
+                Analyze Employee
+            </button>
+
+        </div>
+
+
+        <!-- ================= RESULTS ================= -->
+
+        {% if prediction_text %}
+
+        <section class="result-section">
+
+            <div class="result-header">
+                <h2>Analysis Result</h2>
+
+                <p>
+                    Employee:
+                    <strong>{{ employee_name }}</strong>
+                </p>
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <div class="result-label">
+                        Prediction
+                    </div>
+
+                    <div class="prediction">
+                        {{ prediction_text }}
+                    </div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-label">
+                        Attrition Probability
+                    </div>
+
+                    <div class="probability">
+                        {{ probability }}%
+                    </div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-label">
+                        Risk Level
+                    </div>
+
+                    <div class="risk">
+                        {{ risk_level }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if hr_explanation %}
+
+            <div class="explanation-grid">
+
+
+                <!-- RISK INCREASING -->
+
+                <div class="explanation-card risk-increasing">
+
+                    <h3>
+                        Factors Increasing Risk
+                    </h3>
+
+                    <ul class="factor-list">
+
+                        {% for factor in hr_explanation["risk_increasing"] %}
+
+                        <li>
+                            {{ factor["display_feature"] }}:
+                            <strong>
+                                {{ factor["value"] }}
+                            </strong>
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- RISK REDUCING -->
+
+                <div class="explanation-card risk-reducing">
+
+                    <h3>
+                        Factors Reducing Risk
+                    </h3>
+
+                    <ul class="factor-list">
+
+                        {% for factor in hr_explanation["risk_reducing"] %}
+
+                        <li>
+                            {{ factor["display_feature"] }}:
+                            <strong>
+                                {{ factor["value"] }}
+                            </strong>
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+        {% endif %}
+
+
+        <div class="footer">
+            RetainIQ · Predictive workforce intelligence
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+```
